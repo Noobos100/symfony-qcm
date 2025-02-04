@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello QcmController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code>/home/cdaw/qcm/src/Controller/QcmController.php</code></li>
+        <li>Your template at <code>/home/cdaw/qcm/templates/qcm/index.html.twig</code></li>
+    </ul>
+
+    <!-- Un tableau contenant des données statiques -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Theme</th>
+                <th>Langue</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Le sens de la vie</td>
+                    <td>Par-là</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>La couleur du cheval blanc de Henri IV</td>
+                    <td>Blanc</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>La réponse à la question ultime</td>
+                    <td>42</td>
+                </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
