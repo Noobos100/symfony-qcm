@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DynamicqcmRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DynamicqcmRepository::class)]
@@ -18,6 +19,9 @@ class Dynamicqcm
 
     #[ORM\Column(length: 255)]
     private ?string $langue = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $questions = null;
 
     public function getId(): ?int
     {
@@ -51,6 +55,18 @@ class Dynamicqcm
     public function setLangue(string $langue): static
     {
         $this->langue = $langue;
+
+        return $this;
+    }
+
+    public function getQuestions(): ?string
+    {
+        return $this->questions;
+    }
+
+    public function setQuestions(string $questions): static
+    {
+        $this->questions = $questions;
 
         return $this;
     }
