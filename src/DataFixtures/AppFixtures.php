@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Dynamicqcm;
+use App\Entity\Question;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -35,12 +36,17 @@ class AppFixtures extends Fixture
                 $dynamicqcm->setTheme($theme);
                 $dynamicqcm->setLangue($language);
 
-                // Sélectionner aléatoirement une question
-                $randomKey = array_rand($questions);
-                $selectedQuestion = str_replace(['{theme}', '{language}'], [$theme, $language], $questions[$randomKey]);
-
-                // Convertir la question en une chaîne JSON ou simplement la concaténer
-                $dynamicqcm->setQuestions(json_encode([$selectedQuestion])); // ou $selectedQuestion
+                // Ajouter des questions au Dynamicqcm
+                $numberOfQuestions = rand(3, 6); // Choisir entre 3 et 6 questions
+                for ($i = 0; $i < $numberOfQuestions; $i++) {
+                    $question = new Question();
+                    $questionText = str_replace(['{theme}', '{language}'], [$theme, $language], $questions[array_rand($questions)]);
+                    $question->setQuestion($questionText);
+                    $question->setType('multiple_choice'); // Exemple de type de question
+                    $question->setDynamicqcm($dynamicqcm); // Associer la question au Dynamicqcm
+                    $dynamicqcm->addQuestion($question);
+                    $manager->persist($question);
+                }
 
                 $manager->persist($dynamicqcm);
             }

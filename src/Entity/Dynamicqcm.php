@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DynamicqcmRepository;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DynamicqcmRepository::class)]
@@ -20,19 +21,17 @@ class Dynamicqcm
     #[ORM\Column(length: 255)]
     private ?string $langue = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $questions = null;
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: "dynamicqcm", cascade: ["persist", "remove"])]
+    private Collection $questions;
+
+    public function __construct()
+    {
+        $this->questions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function setId(int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getTheme(): ?string
@@ -43,7 +42,6 @@ class Dynamicqcm
     public function setTheme(string $theme): static
     {
         $this->theme = $theme;
-
         return $this;
     }
 
@@ -55,19 +53,34 @@ class Dynamicqcm
     public function setLangue(string $langue): static
     {
         $this->langue = $langue;
-
         return $this;
     }
 
-    public function getQuestions(): ?string
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
     {
         return $this->questions;
     }
 
-    public function setQuestions(string $questions): static
+    public function addQuestion(Question $question): static
     {
-        $this->questions = $questions;
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setDynamicqcm($this);
+        }
+        return $this;
+    }
 
+    public function removeQuestion(Question $question): static
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getDynamicqcm() === $this) {
+                $question->setDynamicqcm(null);
+            }
+        }
         return $this;
     }
 }
