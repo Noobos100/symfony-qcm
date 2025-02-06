@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class QcmController extends AbstractController
 {
-    #[Route('/qcm', name: 'app_qcm')]
+    #[Route('/', name: 'app_qcm')]
     public function index(): Response
     {
         $user = $this->getUser();
