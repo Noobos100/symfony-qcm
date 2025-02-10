@@ -18,7 +18,7 @@ class QcmController extends AbstractController
         $this->client = $client;
     }
 
-    #[Route('/', name: 'app_qcm')]
+    #[Route('/', name: 'app_home')]
     public function index(): Response
     {
         $user = $this->getUser();
