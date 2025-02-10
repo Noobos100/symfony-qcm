@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Dynamicqcm;
 use App\Entity\Question;
+use App\Entity\Answers;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -13,7 +14,7 @@ class AppFixtures extends Fixture
     {
         $list_of_themes = ['SCRUM_AGILITE', 'KANBAN', 'LEAN', 'XP', 'FDD', 'DSDM', 'TDD', 'ATDD', 'BDD', 'SAFe', 'LESS', 'NEXUS', 'DA', 'PMI', 'PRINCE2', 'PMBOK', 'ITIL', 'COBIT', 'ISO', 'CEMM', 'TOGAF', 'ARCHIMATE', 'UML', 'SYSML', 'BPMN', 'DMN', 'CMMI', 'SPICE'];
 
-        $list_of_languages = ['ENGLISH', 'FRENCH', 'SPANISH', 'GERMAN', 'ITALIAN', 'PORTUGUESE', 'DUTCH', 'RUSSIAN', 'CHINESE', 'JAPANESE', 'KOREAN', 'ARABIC', 'TURKISH', 'PERSIAN', 'HINDI', 'URDU', 'BENGALI', 'PUNJABI', 'TELUGU', 'MARATHI', 'TAMIL', 'GUJARATI', 'KANNADA', 'ORIYA', 'MALAYALAM', 'SINDHI', 'NEPALI', 'SINHALA', 'BURMESE', 'KHMER', 'LAO', 'THAI', 'VIETNAMESE', 'INDONESIAN', 'TAGALOG', 'MALAY'];
+        $list_of_languages = ['ENGLISH', 'FRENCH', 'SPANISH', 'GERMAN', 'ITALIAN', 'PORTUGUESE', 'DUTCH', 'RUSSIAN', 'CHINESE', 'JAPANESE', 'KOREAN', 'ARABIC'];
 
         // Liste de questions possibles
         $questions = [
@@ -29,7 +30,21 @@ class AppFixtures extends Fixture
             "Comment {theme} est-il enseigné en {language}?"
         ];
 
-        // Create a random Dynamicqcm object for each theme and language
+        // Réponses possibles
+        $answersList = [
+            "C'est une méthodologie de gestion de projet.",
+            "Cela permet d'améliorer la productivité.",
+            "Il favorise la collaboration en équipe.",
+            "C'est une approche utilisée dans le développement logiciel.",
+            "Il améliore la flexibilité et l'adaptabilité.",
+            "Cela réduit les délais de livraison.",
+            "Il permet une meilleure gestion des priorités.",
+            "Utilisé principalement dans les grandes entreprises.",
+            "Il met l'accent sur la communication continue.",
+            "Un cadre bien défini pour la gestion de projet."
+        ];
+
+        // Génération des données
         foreach ($list_of_themes as $theme) {
             foreach ($list_of_languages as $language) {
                 $dynamicqcm = new Dynamicqcm();
@@ -43,9 +58,19 @@ class AppFixtures extends Fixture
                     $questionText = str_replace(['{theme}', '{language}'], [$theme, $language], $questions[array_rand($questions)]);
                     $question->setQuestion($questionText);
                     $question->setType('multiple_choice'); // Exemple de type de question
-                    $question->setDynamicqcm($dynamicqcm); // Associer la question au Dynamicqcm
+                    $question->setDynamicqcm($dynamicqcm);
                     $dynamicqcm->addQuestion($question);
                     $manager->persist($question);
+
+                    // Ajouter des réponses à la question
+                    $numberOfAnswers = rand(2, 4); // Chaque question aura entre 2 et 4 réponses
+                    for ($j = 0; $j < $numberOfAnswers; $j++) {
+                        $answer = new Answers();
+                        $answer->setAnswer($answersList[array_rand($answersList)]); // Choisir une réponse aléatoire
+                        $answer->setIsCorrect(rand(0, 1) === 1); // Définir si la réponse est correcte ou non
+                        $answer->setQuestion($question);
+                        $manager->persist($answer);
+                    }
                 }
 
                 $manager->persist($dynamicqcm);

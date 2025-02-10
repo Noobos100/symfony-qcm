@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,6 +25,14 @@ class Question
     #[ORM\ManyToOne(targetEntity: Dynamicqcm::class, inversedBy: "questions")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Dynamicqcm $dynamicqcm = null;
+
+    #[ORM\OneToMany(targetEntity: Answers::class, mappedBy: "question", cascade: ["persist", "remove"])]
+    private Collection $answers;
+
+    public function __construct()
+    {
+        $this->answers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -65,6 +75,30 @@ class Question
     public function setDynamicqcm(?Dynamicqcm $dynamicqcm): static
     {
         $this->dynamicqcm = $dynamicqcm;
+        return $this;
+    }
+
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answers $answer): static
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers->add($answer);
+            $answer->setQuestion($this);
+        }
+        return $this;
+    }
+
+    public function removeAnswer(Answers $answer): static
+    {
+        if ($this->answers->removeElement($answer)) {
+            if ($answer->getQuestion() === $this) {
+                $answer->setQuestion(null);
+            }
+        }
         return $this;
     }
 }
