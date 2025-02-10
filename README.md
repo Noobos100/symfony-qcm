@@ -1,5 +1,15 @@
 # QCM de test de personnalité
 
+### Cloner le dépôt
+```bash
+git clone https://github.com/Noobos100/symfony-qcm.git
+```
+
+Apres deplacé vous dans le dossier une fois cloné
+```bash
+cd symfony-qcm
+```
+
 # Mise en place
 ```bash
 composer install
@@ -19,6 +29,17 @@ php bin/console doctrine:fixtures:load
 ```bash
 symfony serve
 ```
+
+# Install node modules pour tailwinds
+```bash
+npm install
+```
+
+# Pour voir les modification des que l'on fait des modification 
+```bash
+npm run watch
+```
+
 L'API à utiliser est la suivante:
 https://github.com/Noobos100/symfony-qcm.git
 
