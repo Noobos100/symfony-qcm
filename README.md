@@ -14,6 +14,10 @@ cd symfony-qcm
 ```bash
 composer install
 ```
+# Créer la base de donné 
+```bash
+php bin/console doctrine:database:create
+```
 
 # Migration
 ```bash
