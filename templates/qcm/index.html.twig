@@ -3,39 +3,38 @@
 {% block title %}Hello {{ email_first_part }}!{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-        table { width: 100%; border-collapse: collapse; }
-        table, th, td { border: 1px solid black; }
-        th, td { padding: 8px; text-align: left; }
-    </style>
+    <div class="min-h-screen flex items-center justify-center bg-[#F4F1DE]">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl">
+            <h1 class="text-3xl font-semibold text-[#3D405B] mb-4">Hello {{ email_first_part }}! ✅</h1>
 
-    <div class="example-wrapper">
-        <h1>Hello {{ email_first_part }}! ✅</h1>
+            <p class="text-gray-700 mb-6">
+                This friendly message is coming from:
+            </p>
 
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code>/home/cdaw/qcm/src/Controller/QcmController.php</code></li>
-            <li>Your template at <code>/home/cdaw/qcm/templates/qcm/index.html.twig</code></li>
-        </ul>
+            <ul class="list-disc pl-5 text-gray-700 mb-6">
+                <li>Your controller at <code class="bg-[#F2F2F2] text-[#3D405B] px-2 py-1 rounded">/home/cdaw/qcm/src/Controller/QcmController.php</code></li>
+                <li>Your template at <code class="bg-[#F2F2F2] text-[#3D405B] px-2 py-1 rounded">/home/cdaw/qcm/templates/qcm/index.html.twig</code></li>
+            </ul>
 
-        <!-- Table containing users from the API -->
-        <table>
-            <thead>
-            <tr>
-                <th>id</th>
-                <th>email</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.email }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+            <!-- Table containing users from the API -->
+            <div class="overflow-x-auto bg-[#F9F9F9] p-4 rounded-lg shadow-sm">
+                <table class="w-full table-auto border-separate border-spacing-0">
+                    <thead>
+                    <tr class="bg-[#F2F2F2] text-[#3D405B]">
+                        <th class="px-4 py-2 border-b">id</th>
+                        <th class="px-4 py-2 border-b">email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr class="hover:bg-[#F2F2F2]">
+                            <td class="px-4 py-2 border-b text-[#3D405B]">{{ user.id }}</td>
+                            <td class="px-4 py-2 border-b text-[#3D405B]">{{ user.email }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 {% endblock %}
